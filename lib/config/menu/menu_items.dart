@@ -14,7 +14,7 @@ class MenuItems {
   });
 }
 
-const List<MenuItems> menuItems = [
+const List<MenuItems> appMenuItems = [
   MenuItems(
     title: 'Botones',
     subTitle: 'Variedad de botones',
