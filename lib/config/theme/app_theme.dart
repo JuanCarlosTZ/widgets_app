@@ -5,7 +5,7 @@ class AppTheme {
 
   AppTheme({required this.selectedColor})
       : assert(selectedColor >= 0 && selectedColor < colorList.length,
-            'Color must be between 0 and ${colorList.length - 0}');
+            'Color must be between 0 and ${colorList.length - 1}');
 
   ThemeData getTheme() => ThemeData(
         colorSchemeSeed: colorList[selectedColor],
