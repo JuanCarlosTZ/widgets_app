@@ -45,4 +45,10 @@ const List<MenuItems> appMenuItems = [
     link: '/animated',
     icon: Icons.check_box_outline_blank,
   ),
+  MenuItems(
+    title: 'UI Controls + Tiles',
+    subTitle: 'Stateful widget serie de controles',
+    link: '/ui-controls',
+    icon: Icons.car_rental_outlined,
+  ),
 ];
