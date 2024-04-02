@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:widgets_app/domain/card_element.dart';
 import 'package:widgets_app/model/cards_model.dart';
 
 final cards = <Map<String, dynamic>>[
