@@ -57,6 +57,7 @@ class SnackbarScreen extends StatelessWidget {
                   );
                 },
                 child: const Text('Licencias usadas')),
+            const SizedBox(height: 10),
             FilledButton.tonal(
                 onPressed: () => _showDialog(context),
                 child: const Text('Mostrar diálogo')),
