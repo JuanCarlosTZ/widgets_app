@@ -1,4 +1,4 @@
-import 'package:widgets_app/domain/transportation.dart';
+import 'package:widgets_app/domain/entities/ui_controls/transportation_entity.dart';
 
 final List<Map<String, dynamic>> transportations = [
   {'type': TransportationType.car, 'caption': 'Viaje por carro'},
@@ -10,7 +10,7 @@ final List<Map<String, dynamic>> transportations = [
 
 class TransportationModel {
   final String caption;
-  final TransportationType type;
+  final String type;
 
   TransportationModel({required this.caption, required this.type});
 
@@ -24,6 +24,8 @@ class TransportationModel {
     );
   }
 
-  Transportation toTransportation() =>
-      Transportation(caption: caption, type: type);
+  TransportationEntity toTransportation() => TransportationEntity(
+      caption: caption,
+      type: TransportationType.values
+          .firstWhere((element) => element.name == type));
 }

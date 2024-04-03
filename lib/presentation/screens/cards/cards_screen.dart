@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:widgets_app/model/cards_model.dart';
+import 'package:widgets_app/infraestructure/model/cards_model.dart';
 
 final cards = <Map<String, dynamic>>[
   {'elevation': 0.0, 'label': 'Elevation 0'},

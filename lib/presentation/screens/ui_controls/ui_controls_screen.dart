@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:widgets_app/domain/dishes_element.dart';
-import 'package:widgets_app/domain/transportation.dart';
-import 'package:widgets_app/model/dishes_model.dart';
-import 'package:widgets_app/model/transportation_model.dart';
+import 'package:provider/provider.dart';
+import 'package:widgets_app/presentation/providers/ui_controls/ui_controls_provider.dart';
 
 class UiControlsScreen extends StatelessWidget {
   static String name = 'ui_controls_screen';
@@ -15,82 +13,59 @@ class UiControlsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('UI Controls'),
       ),
-      body: const _UIControlsView(),
+      body: _UiControlsView(),
     );
   }
 }
 
-class _UIControlsView extends StatefulWidget {
-  const _UIControlsView();
-
-  @override
-  State<_UIControlsView> createState() => _UIControlsViewState();
-}
-
-class _UIControlsViewState extends State<_UIControlsView> {
-  final controller = ExpansionTileController();
-  bool isDevelop = false;
-
-  Transportation transportationSelected =
-      Transportation(caption: 'Viaje por carro', type: TransportationType.car);
-  final List<DishesElement> dishes =
-      dishesList.map((e) => DishesModel.fromJson(e).toDishesElement()).toList();
-
-  Widget radioElement(Transportation transport) {
-    return RadioListTile(
-      title: Text(transport.type.name),
-      subtitle: Text(transport.caption),
-      value: transport.type,
-      groupValue: transportationSelected.type,
-      onChanged: (value) {
-        setState(() {
-          if (value == null) return;
-          transportationSelected =
-              Transportation(caption: transport.caption, type: value);
-          controller.collapse();
-        });
-      },
-    );
-  }
-
+class _UiControlsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<UiControlsProvider>();
+    final transportation = provider.transportationSelected;
+
     return ListView(
       children: [
         SwitchListTile(
           title: const Text('Develop mode'),
           subtitle: const Text('Controles adicionales'),
-          value: isDevelop,
+          value: provider.isDevelop,
           onChanged: (value) {
-            setState(() {
-              isDevelop = value;
-            });
+            provider.setDevelopMode(value);
           },
         ),
         ExpansionTile(
           title: const Text('Vehículo de transporte'),
-          subtitle: Text(
-              '${transportationSelected.type.name} - ${transportationSelected.caption}'),
-          controller: controller,
+          subtitle: Text(transportation?.toString() ?? 'Seleccionar'),
+          controller: provider.controller,
           children: [
-            ...transportations.map(
-              (json) {
-                final transport =
-                    TransportationModel.fromJson(json).toTransportation();
-                return radioElement(transport);
+            ...provider.transportations.map(
+              (transport) {
+                return RadioListTile(
+                  title: Text(transport.type.name),
+                  subtitle: Text(transport.caption),
+                  value: transport,
+                  groupValue: provider.transportationSelected,
+                  onChanged: (value) {
+                    if (value == null) return;
+                    provider.setTransportation(value);
+                  },
+                );
               },
             )
           ],
         ),
-        ...dishes.map(
-          (e) => CheckboxListTile(
-              title: Text(e.caption),
-              value: e.included,
-              onChanged: (value) => setState(() {
-                    final index = dishes.indexOf(e);
-                    dishes[index].included = value ?? false;
-                  })),
-        )
+        ...provider.dishes.map((dish) => CheckboxListTile(
+              title: Text(dish.caption),
+              value: dish.included,
+              onChanged: (value) {
+                final dishes = provider.dishes;
+                final index = dishes.indexOf(dish);
+
+                dishes[index].included = value ?? false;
+                provider.setDishes(dishes);
+              },
+            )),
       ],
     );
   }

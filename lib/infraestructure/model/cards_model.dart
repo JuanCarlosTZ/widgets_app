@@ -1,4 +1,4 @@
-import 'package:widgets_app/domain/card_element.dart';
+import 'package:widgets_app/domain/entities/card_entity.dart';
 
 class CardsModel {
   final double elevation;
