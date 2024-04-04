@@ -1,20 +1,74 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-class AppTutorialScreen extends StatelessWidget {
+class AppTutorialScreen extends StatefulWidget {
   static String name = 'tutorial_screen';
   const AppTutorialScreen({super.key});
 
   @override
+  State<AppTutorialScreen> createState() => _AppTutorialScreenState();
+}
+
+class _AppTutorialScreenState extends State<AppTutorialScreen> {
+  final PageController controller = PageController();
+  bool endReached = false;
+
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(() {
+      final double page = controller.page ?? 0;
+      if (!endReached && page >= slides.length - 1) {
+        setState(() {
+          endReached = true;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-          children: slides
-              .map((e) => _Slide(
-                    title: e.title,
-                    caption: e.caption,
-                    imageUrl: e.imageUrl,
-                  ))
-              .toList()),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            PageView(
+                controller: controller,
+                children: slides
+                    .map((e) => _Slide(
+                          title: e.title,
+                          caption: e.caption,
+                          imageUrl: e.imageUrl,
+                        ))
+                    .toList()),
+            Positioned(
+                right: 10,
+                child: TextButton.icon(
+                  icon: const Icon(Icons.close_outlined),
+                  onPressed: context.pop,
+                  label: const Text('Salir'),
+                )),
+            endReached
+                ? Positioned(
+                    right: 10,
+                    bottom: 10,
+                    child: FadeInRight(
+                      curve: Curves.linearToEaseOut,
+                      child: FilledButton(
+                          onPressed: () {}, child: const Text('Comenzar')),
+                    ),
+                  )
+                : const SizedBox()
+          ],
+        ),
+      ),
     );
   }
 }
@@ -32,26 +86,24 @@ class _Slide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image(image: AssetImage(imageUrl)),
-            const SizedBox(height: 10),
-            Text(
-              title,
-              style: textTheme.titleLarge,
-            ),
-            const SizedBox(height: 10),
-            Text(
-              caption,
-              style: textTheme.bodyLarge,
-            ),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image(image: AssetImage(imageUrl)),
+          const SizedBox(height: 10),
+          Text(
+            title,
+            style: textTheme.titleLarge,
+          ),
+          const SizedBox(height: 10),
+          Text(
+            caption,
+            style: textTheme.bodyLarge,
+          ),
+        ],
       ),
     );
   }
