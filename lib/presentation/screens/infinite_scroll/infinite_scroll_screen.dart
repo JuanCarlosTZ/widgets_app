@@ -68,9 +68,10 @@ class _InfiniteScrollScreenState extends State<InfiniteScrollScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: MediaQuery.removePadding(
-        context: context,
-        removeTop: true,
+      body: SafeArea(
+        right: false,
+        left: false,
+        bottom: false,
         child: Stack(
           children: [
             RefreshIndicator(
@@ -117,7 +118,7 @@ class _Loading extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(5),
         child: Align(
             alignment: Alignment.bottomCenter,
             child: FadeInUp(
