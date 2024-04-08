@@ -72,7 +72,7 @@ const List<MenuItems> appMenuItems = [
   MenuItems(
     title: 'Cambiar Tema',
     subTitle: 'Gestionar tema de la aplicación',
-    link: '/theme-chager',
+    link: '/theme-changer',
     icon: Icons.color_lens_outlined,
   ),
 ];
