@@ -11,11 +11,13 @@ class CounterScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final style = Theme.of(context).textTheme;
     final clicksCounter = ref.watch(CounterProvider.clickCounter);
-    final header = clicksCounter == 1 ? 'Click' : 'Clicks';
     final dartModeProvider = ref.read(ThemeCounterProvider.dartMode.notifier);
     final dartMode = ref.watch(ThemeCounterProvider.dartMode);
+
+    final header = clicksCounter == 1 ? 'Click' : 'Clicks';
     final iconMode =
         dartMode ? Icons.dark_mode_outlined : Icons.light_mode_outlined;
+        
     return Scaffold(
       appBar: AppBar(
         title: const Text('Contador con Riverpod'),
