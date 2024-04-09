@@ -21,6 +21,7 @@ class MainApp extends ConsumerWidget {
     final datasource = LocalUiControlsSourceImpl();
     final repository = UiControlsRepositoryImpl(datasource);
     final isDartMode = ref.watch(dartModeProvider);
+    final selectedColorIndex = ref.watch(colorIndexProvider);
 
     return MultiProvider(
       providers: [
@@ -32,7 +33,10 @@ class MainApp extends ConsumerWidget {
         title: 'Flutter Widgets',
         routerConfig: appRouter,
         debugShowCheckedModeBanner: false,
-        theme: AppTheme(selectedColor: 4, isDartMode: isDartMode).getTheme(),
+        theme: AppTheme(
+          selectedColor: selectedColorIndex,
+          isDartMode: isDartMode,
+        ).getTheme(),
       ),
     );
   }
