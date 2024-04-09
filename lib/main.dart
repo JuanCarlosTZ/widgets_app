@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart'
     show ProviderScope, ConsumerWidget, WidgetRef;
 import 'package:provider/provider.dart';
 import 'package:widgets_app/config/router/app_router.dart';
-import 'package:widgets_app/config/theme/app_theme.dart';
 import 'package:widgets_app/infraestructure/datasources/local_ui_controls_source_impl.dart';
 import 'package:widgets_app/infraestructure/repositories/ui_controls_repository_imp.dart';
 import 'package:widgets_app/presentation/providers/theme_changer/theme_changer_provider.dart';
@@ -20,8 +19,6 @@ class MainApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final datasource = LocalUiControlsSourceImpl();
     final repository = UiControlsRepositoryImpl(datasource);
-    final isDartMode = ref.watch(dartModeProvider);
-    final selectedColorIndex = ref.watch(colorIndexProvider);
     final appTheme = ref.watch(themeNotifierProvider);
 
     return MultiProvider(
