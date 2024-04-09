@@ -11,8 +11,7 @@ class CounterScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final style = Theme.of(context).textTheme;
     final clicksCounter = ref.watch(CounterProvider.clickCounter);
-    final dartModeNotifier = ref.read(dartModeProvider.notifier);
-    final dartMode = ref.watch(dartModeProvider);
+    final dartMode = ref.watch(themeNotifierProvider).isDartMode;
 
     final header = clicksCounter == 1 ? 'Click' : 'Clicks';
     final iconMode =
@@ -24,7 +23,7 @@ class CounterScreen extends ConsumerWidget {
         actions: [
           IconButton(
             onPressed: () {
-              dartModeNotifier.update((state) => !state);
+              ref.read(themeNotifierProvider.notifier).changeDarMode();
             },
             icon: Icon(iconMode),
           )
@@ -45,7 +44,6 @@ class CounterScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           ref.read(CounterProvider.clickCounter.notifier).state++;
-          dartModeNotifier.update((state) => !state);
         },
         child: const Icon(Icons.add),
       ),
