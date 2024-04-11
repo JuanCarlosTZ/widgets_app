@@ -61,6 +61,7 @@ class _ButtonsView extends StatelessWidget {
                 icon: const Icon(Icons.favorite),
                 label: const Text('Text')),
             const _CustomButton(),
+            const _CustomButtonGradient(),
             IconButton(
               onPressed: () {},
               icon: const Icon(Icons.calendar_month),
@@ -101,6 +102,48 @@ class _CustomButton extends StatelessWidget {
                     color: Colors.white, fontWeight: FontWeight.w500)),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _CustomButtonGradient extends StatelessWidget {
+  const _CustomButtonGradient();
+
+  @override
+  Widget build(BuildContext context) {
+    const stackChild = Padding(
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      child: Text('Custom Button Gradient',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500)),
+    );
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.blue,
+                  Colors.green
+                ], // Puedes cambiar los colores del gradiente según tus preferencias
+              ),
+            ),
+            child: stackChild,
+          ),
+          Material(
+            color: Colors
+                .transparent, // Hacemos el color transparente para que el gradiente sea visible
+            child: InkWell(
+              onTap: () {},
+              child: stackChild,
+            ),
+          ),
+        ],
       ),
     );
   }
